@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Voting</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hasil Voting</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Menu</th>
+                    <th>Jumlah Vote</th>
+                </tr>
+            </thead>
+            <tbody id="results"></tbody>
+        </table>
+        <button class="reset-button" onclick="promptReset()">Reset Voting</button>
+    </div>
+
+    <script>
+        function loadVotes() {
+            // Ambil data dari Local Storage
+            let votes = JSON.parse(localStorage.getItem('votes')) || {
+                "Mocktail": 0,
+                "Waffle": 0,
+                "Chiki Campur": 0
+            };
+
+            // Tampilkan hasil voting di tabel tanpa refresh
+            const results = document.getElementById('results');
+            results.innerHTML = ''; // Kosongkan tabel sebelumnya
+            for (let menu in votes) {
+                results.innerHTML += `
+                    <tr>
+                        <td>${menu}</td>
+                        <td>${votes[menu]}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        function promptReset() {
+            // Password untuk reset (ubah sesuai kebutuhan Anda)
+            const correctPassword = "dreamlandkamar2";
+
+            // Tampilkan prompt untuk password
+            const password = prompt("Masukkan password untuk reset data voting:");
+
+            // Validasi password
+            if (password === correctPassword) {
+                resetVotes();
+            } else if (password !== null) {
+                alert("Password salah. Reset dibatalkan.");
+            }
+        }
+
+        function resetVotes() {
+            // Hapus semua data dari Local Storage
+            localStorage.removeItem('votes');
+            localStorage.removeItem('voted'); // Menghapus tanda bahwa perangkat sudah voting
+
+            // Reset data ke 0 dan perbarui tabel tanpa refresh
+            let defaultVotes = {
+                "Mocktail": 0,
+                "Waffle": 0,
+                "Chiki Campur": 0
+            };
+            localStorage.setItem('votes', JSON.stringify(defaultVotes));
+            alert('Data voting telah direset!');
+            loadVotes(); // Perbarui tabel secara langsung
+        }
+
+        // Panggil fungsi saat halaman dimuat
+        loadVotes();
+    </script>
+</body>
+</html>

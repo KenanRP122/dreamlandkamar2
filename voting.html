@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Makanan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Voting Makanan Favorit</h1>
+        <p>Pilih makanan favorit Anda (hanya sekali per perangkat):</p>
+        <div class="menu-container">
+            <div class="menu-item">
+                <img src="https://images.immediate.co.uk/production/volatile/sites/30/2020/04/mocktail-3b9ab7d.jpg?quality=90&webp=true&resize=300,272" alt="Mocktail">
+                <h3>Mocktail</h3>
+                <button onclick="vote('Mocktail')">Vote</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://www.allrecipes.com/thmb/0LQPQBnXVMeFU7n7pfLEqHny8H8=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/20513-classic-waffles-mfs-025-4x3-81c0f0ace44d480ca69dd5f2c949731a.jpg" alt="Waffle">
+                <h3>Waffle</h3>
+                <button onclick="vote('Waffle')">Vote</button>
+            </div>
+            <div class="menu-item">
+                <img src="https://media.suara.com/pictures/653x366/2021/02/18/56866-ilsutrasi-lays-doritos-dan-cheetos.webp" alt="Chiki Campur">
+                <h3>Chiki Campur</h3>
+                <button onclick="vote('Chiki Campur')">Vote</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function vote(menu) {
+            // Cek apakah perangkat sudah voting
+            if (localStorage.getItem('voted') === 'true') {
+                alert('Anda sudah melakukan voting!');
+                return;
+            }
+
+            // Ambil data voting dari Local Storage
+            let votes = JSON.parse(localStorage.getItem('votes')) || {
+                "Mocktail": 0,
+                "Waffle": 0,
+                "Chiki Campur": 0
+            };
+
+            // Tambahkan vote
+            votes[menu] += 1;
+
+            // Simpan kembali ke Local Storage
+            localStorage.setItem('votes', JSON.stringify(votes));
+            localStorage.setItem('voted', 'true'); // Tandai perangkat sudah voting
+
+            alert(`Anda telah memilih ${menu}!`);
+        }
+    </script>
+</body>
+</html>
